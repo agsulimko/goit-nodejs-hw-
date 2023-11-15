@@ -1,0 +1,51 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\FingerWeg\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Users\FingerWeg\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\FingerWeg\bin;C:\Python311\Scripts;C:\Python311;C:\Program Files\Eclipse Adoptium\jre-8.0.362.9-hotspot\bin;C:\Program Files (x86)\Eclipse Adoptium\jre-8.0.362.9-hotspot\bin;C:\Program Files\Eclipse Adoptium\jre-17.0.6.10-hotspot\bin;C:\Program Files\Eclipse Adoptium\jre-11.0.18.10-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files (x86)\dotnet;C:\Program Files\dotnet;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs;C:\Users\FingerWeg\AppData\Local\Microsoft\WindowsApps;C:\Users\FingerWeg\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\FingerWeg\AppData\Local\GitHubDesktop\bin;C:\Users\FingerWeg\AppData\Roaming\npm;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.17.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: 604B0000:error:1C800066:Provider routines:ossl_gcm_stream_update:cipher operation failed:c:\ws\deps\openssl\openssl\providers\implementations\ciphers\ciphercommon_gcm.c:320:
+
+npm manifest: 
+  {
+    "name": "template",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+      "start": "cross-env NODE_ENV=production node ./server.js",
+      "start:dev": "cross-env NODE_ENV=development nodemon ./server.js",
+      "lint": "eslint **/*.js",
+      "lint:fix": "eslint --fix **/*.js"
+    },
+    "dependencies": {
+      "cors": "2.8.5",
+      "cross-env": "7.0.3",
+      "express": "4.17.1",
+      "morgan": "1.10.0"
+    },
+    "devDependencies": {
+      "eslint": "7.19.0",
+      "eslint-config-prettier": "^8.3.0",
+      "eslint-config-standard": "16.0.3",
+      "eslint-plugin-import": "2.25.3",
+      "eslint-plugin-node": "^11.1.0",
+      "eslint-plugin-promise": "5.2.0",
+      "nodemon": "2.0.15"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
