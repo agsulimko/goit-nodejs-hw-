@@ -33,7 +33,6 @@ const removeContacts = async (contactId) => {
     return null;
   }
 };
-// name, email, phone;
 
 const addContacts = async (body) => {
   const contacts = await listContacts();
@@ -41,14 +40,6 @@ const addContacts = async (body) => {
     id: nanoid(),
     ...body,
   };
-  // const addContacts = async (name, email, phone) => {
-  //   const contacts = await listContacts();
-  //   const newContact = {
-  //     id: nanoid(),
-  //     name: name,
-  //     email: email,
-  //     phone: phone,
-  //   };
 
   contacts.push(newContact);
   writeFileHelper(contactsPath, JSON.stringify(contacts, null, 2));

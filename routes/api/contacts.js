@@ -6,11 +6,6 @@ const Joi = require("joi");
 
 const router = express.Router();
 
-// router.get("/", async (req, res, next) => {
-//   const allContacts = await contacts.listContacts();
-//   res.json(allContacts);
-// });
-
 const addSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
@@ -25,29 +20,16 @@ router.get("/", async (req, res, next) => {
     res.status(500).json({ mesege: "Server error" });
   }
 });
-// router.get("/:contactId", async (req, res, next) => {
-//   const getContacts = await contacts.getContactById(id);
-//   res.json(getContacts);
-// });
+
 router.get("/:contactId", async (req, res, next) => {
   try {
-    // console.log(req.params);
     const { contactId } = req.params;
     const getContacts = await contacts.getContactById(contactId);
     if (!getContacts) {
       throw HttpError(404, "Not Found");
-      // return res.status(404).json({ mesege: "Not found" });
-      // const error = new Error("Not Found");
-      // error.status = 404;
-      // throw error;
     }
     res.json(getContacts);
   } catch (error) {
-    // res.status(500).json({ mesege: "Server error" });
-    // const { status = 500, message = "Server error" } = error;
-    //   res.status(500).json({ message: "Server error" });
-
-    // console.log(req.params);
     next(error); // Шукає Обробник помилок
   }
 });
@@ -65,7 +47,7 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
-// name, email, phone;
+
 router.delete("/:contactId", async (req, res, next) => {
   try {
     console.log(req.params);
@@ -97,9 +79,6 @@ router.put("/:contactId", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  // const updateContacts = await contacts.updateContacts(id, req.body);
-  // res.json(updateContacts);
 });
 
 module.exports = router;
-// { message: "template message" }
