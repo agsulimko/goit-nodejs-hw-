@@ -1,9 +1,9 @@
 const fs = require("fs/promises");
 const path = require("path");
 const { nanoid } = require("nanoid");
-const contactsPath = path.join(__dirname, "db", "contacts.json");
+const contactsPath = path.join(__dirname, "contacts.json");
 
-const writeFile = async (filePath, data) => {
+const writeFileHelper = async (filePath, data) => {
   await fs.writeFile(filePath, data);
 };
 const listContacts = async () => {
@@ -13,8 +13,9 @@ const listContacts = async () => {
 
 const getContactById = async (contactId) => {
   const contacts = await listContacts();
-
+  console.log(contacts);
   const result = contacts.find((contact) => contact.id === contactId);
+  console.log("result", result);
   return result || null;
 };
 
@@ -25,37 +26,43 @@ const removeContacts = async (contactId) => {
 
   if (index !== -1) {
     const [removedContacts] = contacts.splice(index, 1);
-    writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+    writeFileHelper(contactsPath, JSON.stringify(contacts, null, 2));
 
     return removedContacts;
   } else {
     return null;
   }
 };
+// name, email, phone;
 
-const addContacts = async (name, email, phone) => {
+const addContacts = async (body) => {
   const contacts = await listContacts();
   const newContact = {
     id: nanoid(),
-    name: name,
-    email: email,
-    phone: phone,
+    ...body,
   };
+  // const addContacts = async (name, email, phone) => {
+  //   const contacts = await listContacts();
+  //   const newContact = {
+  //     id: nanoid(),
+  //     name: name,
+  //     email: email,
+  //     phone: phone,
+  //   };
 
   contacts.push(newContact);
-  writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  writeFileHelper(contactsPath, JSON.stringify(contacts, null, 2));
   return newContact;
 };
 
-const updateContacts = async (contactId, name, email, phone) => {
+const updateContacts = async (contactId, body) => {
   const contacts = await listContacts();
 
   const index = contacts.findIndex((contact) => contact.id === contactId);
 
   if (index !== -1) {
-    contacts[index] = { contactId, name, email, phone };
-    writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-
+    contacts[index] = { contactId, ...body };
+    writeFileHelper(contactsPath, JSON.stringify(contacts, null, 2));
     return contacts[index];
   } else {
     return null;
@@ -68,4 +75,5 @@ module.exports = {
   removeContacts,
   addContacts,
   updateContacts,
+  writeFileHelper,
 };
