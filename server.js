@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const app = require("./app");
+const { DB_HOST } = require("./config");
+// const DB_PASSWORD = encodeURIComponent("Z@TNhTsS99tR6!Q");
 
-const DB_PASSWORD = encodeURIComponent("Z@TNhTsS99tR6!Q");
-
-const DB_HOST = `mongodb+srv://agsulimko:${DB_PASSWORD}@clusteragsulimko1.6tm1onp.mongodb.net/hw03-mongodb?retryWrites=true&w=majority`;
+// const DB_HOST = `mongodb+srv://agsulimko:${DB_PASSWORD}@clusteragsulimko1.6tm1onp.mongodb.net/hw03-mongodb?retryWrites=true&w=majority`;
 
 mongoose.set("strictQuery", true);
 
