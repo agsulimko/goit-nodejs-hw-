@@ -78,12 +78,6 @@
     "phone": " "
   },
   {
-    "id": "mY0fKczxkjJ4SXivq0X7Q",
-    "name": "artem",
-    "email": "qwe@mko.lop",
-    "phone": "36466636"
-  },
-  {
     "id": "iZ6ncFlzO0B33uglhhtfE",
     "name": "artem",
     "email": "qwe@mko.lop",
@@ -102,10 +96,10 @@
     "phone": "77777777"
   },
   {
-    "id": "Wzi-5rnPl5r0HDHoINr9I",
-    "name": "Artem",
+    "contactId": "Wzi-5rnPl5r0HDHoINr9I",
+    "name": "Artemin",
     "email": "postman@gmail.com",
-    "phone": "77777777"
+    "phone": "0000000000000"
   },
   {
     "contactId": "PvwMStvHhELSK4uu6siFp",

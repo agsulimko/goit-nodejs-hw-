@@ -1,20 +1,18 @@
 const mongoose = require("mongoose");
 const app = require("./app");
-const dotenv = require("dotenv");
-dotenv.config();
-// const { DB_HOST } = require("./config");
-const { DB_HOST } = process.env;
+require("dotenv").config();
 
-// console.log(DB_HOST);
-// const DB_HOST =
-//   "mongodb+srv://agsulimko:qw54JJJHJG787FFgfh@clusteragsulimko1.6tm1onp.mongodb.net/hw03-mongodb?retryWrites=true&w=majority";
+// const dotenv = require("dotenv");
+// dotenv.config();
+// const { DB_HOST } = require("./config");
+const { DB_HOST, PORT = 3000 } = process.env;
 
 // mongoose.set("strictQuery", true);
 
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    app.listen(3000, () => {
+    app.listen(PORT, () => {
       console.log("Database connection successful");
     });
   })
