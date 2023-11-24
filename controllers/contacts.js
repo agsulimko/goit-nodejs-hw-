@@ -11,8 +11,8 @@ const { Contacts } = require("../models/contacts");
 // });
 
 const getAll = async (req, res, next) => {
-  const allContacts = await Contacts.listContacts();
-  // const allContacts = await Contacts.find({});
+  // const allContacts = await Contacts.listContacts();
+  const allContacts = await Contacts.find({});
   res.json(allContacts);
 };
 // try {
