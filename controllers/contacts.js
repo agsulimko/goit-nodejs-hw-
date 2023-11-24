@@ -1,7 +1,7 @@
-const contacts = require("../models/contacts");
+// const contacts = require("../models/contacts");
 const { HttpError, ctrlWrapper } = require("../helpers");
-const Joi = require("joi");
-// const { Contacts } = require("../models/contacts");
+// const Joi = require("joi");
+const { Contacts } = require("../models/contacts");
 // виносимо схеми в окремий файл
 // const addSchema = Joi.object({
 //   name: Joi.string().required(),
@@ -11,7 +11,7 @@ const Joi = require("joi");
 // });
 
 const getAll = async (req, res, next) => {
-  const allContacts = await contacts.listContacts();
+  const allContacts = await Contacts.listContacts();
   // const allContacts = await Contacts.find({});
   res.json(allContacts);
 };
@@ -24,7 +24,7 @@ const getAll = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
   const { contactId } = req.params;
-  const getContacts = await contacts.getContactById(contactId);
+  const getContacts = await Contacts.getContactById(contactId);
   if (!getContacts) {
     throw HttpError(404, "Not Found");
   }
@@ -47,7 +47,7 @@ const add = async (req, res, next) => {
   // if (error) {
   //   throw HttpError(400, error.message);
   // }
-  const addContacts = await contacts.addContacts(req.body);
+  const addContacts = await Contacts.addContacts(req.body);
 
   res.status(201).json(addContacts);
 };
@@ -59,7 +59,7 @@ const updateById = async (req, res, next) => {
   // }
   const { contactId } = req.params;
   console.log(contactId);
-  const updateContacts = await contacts.updateContacts(contactId, req.body);
+  const updateContacts = await Contacts.updateContacts(contactId, req.body);
   console.log(updateContacts);
   if (!updateContacts) {
     throw HttpError(404, "Not Found");
@@ -70,7 +70,7 @@ const updateById = async (req, res, next) => {
 const deleteById = async (req, res, next) => {
   console.log(req.params);
   const { contactId } = req.params;
-  const removeContacts = await contacts.removeContacts(contactId);
+  const removeContacts = await Contacts.removeContacts(contactId);
   if (!removeContacts) {
     throw HttpError(404, "Not Found");
   }

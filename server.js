@@ -8,14 +8,14 @@ require("dotenv").config();
 // const { DB_HOST } = require("./config");
 // const DB_HOST =
 //   "mongodb+srv://agsulimko:qw54JJJHJG787FFgfh@clusteragsulimko1.6tm1onp.mongodb.net/db-contacts?retryWrites=true&w=majority";
-const { DB_HOST } = process.env;
+const { DB_HOST, PORT = 3000 } = process.env;
 // console.log(process.env);
 mongoose.set("strictQuery", true);
 
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    app.listen(3000, () => {
+    app.listen(PORT, () => {
       console.log("Database connection successful");
     });
   })
