@@ -4,19 +4,20 @@ const app = require("./app");
 
 // const dotenv = require("dotenv");
 // dotenv.config();
-// const { DB_HOST } = require("./config");
-const { DB_HOST, PORT = 3000 } = process.env;
+const { DB_HOST } = require("./config");
+
+// const { DB_HOST, PORT = 3000 } = process.env;
 
 // mongoose.set("strictQuery", true);
 
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    app.listen(PORT, () => {
+    app.listen(3000, () => {
       console.log("Database connection successful");
     });
   })
   .catch((error) => {
     console.log(error.message);
-    // process.exit(1);
+    process.exit(1);
   });
