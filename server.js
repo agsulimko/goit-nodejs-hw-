@@ -2,14 +2,9 @@ const mongoose = require("mongoose");
 const app = require("./app");
 
 require("dotenv").config();
-// const dotenv = require("dotenv");
-// dotenv.config();
 
-// const { DB_HOST } = require("./config");
-// const DB_HOST =
-//   "mongodb+srv://agsulimko:qw54JJJHJG787FFgfh@clusteragsulimko1.6tm1onp.mongodb.net/db-contacts?retryWrites=true&w=majority";
 const { DB_HOST, PORT = 3000 } = process.env;
-// console.log(process.env);
+
 mongoose.set("strictQuery", true);
 
 mongoose

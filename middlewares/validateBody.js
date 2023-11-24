@@ -13,4 +13,3 @@ const validateBody = (schema) => {
 };
 
 module.exports = validateBody;
-//  throw HttpError(404, "Not Found");
