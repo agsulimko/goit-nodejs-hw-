@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-// const Joi = require("joi");
+const Joi = require("joi");
 const contactsSchema = Schema(
   {
     name: {
@@ -20,13 +20,17 @@ const contactsSchema = Schema(
   { versionKey: false, timestamps: true }
 );
 
-// const joiSchema = Joi.object({
-//   name: Joi.string().required(),
-//   email: Joi.string().required(),
-//   phone: Joi.string().required(),
-//   //   favorite: Joi.bool(),
-// });
+const joiSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().required(),
+  phone: Joi.string().required(),
+  favorite: Joi.bool(),
+});
+
+const favoriteJoiSchema = Joi.object({
+  favorite: Joi.bool().valid(true, false).required(),
+});
 
 const Contacts = model("contact", contactsSchema);
 
-module.exports = { Contacts };
+module.exports = { Contacts, joiSchema, favoriteJoiSchema };

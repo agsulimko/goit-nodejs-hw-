@@ -6,8 +6,8 @@ const ctrl = require("../../controllers/contacts");
 // const Joi = require("joi");
 
 const { validateBody } = require("../../middlewares");
-// const { joiSchema } = require("../../models/contacts");
-const schemas = require("../../schemas/contacts");
+const schemas = require("../../models/contacts");
+// const schemas = require("../../schemas-DELETE/contacts");
 
 const router = express.Router();
 
@@ -22,9 +22,15 @@ router.get("/", ctrl.getAll);
 
 router.get("/:contactId", ctrl.getById);
 
-router.post("/", validateBody(schemas.addSchema), ctrl.add);
+router.post("/", validateBody(schemas.joiSchema), ctrl.add);
 
-router.put("/:contactId", validateBody(schemas.addSchema), ctrl.updateById);
+router.put("/:contactId", validateBody(schemas.joiSchema), ctrl.updateById);
+
+router.patch(
+  "/:contactId/favorite",
+  validateBody(schemas.favoriteJoiSchema),
+  ctrl.updateStatusContact
+);
 
 router.delete("/:contactId", ctrl.deleteById);
 

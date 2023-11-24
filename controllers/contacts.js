@@ -24,9 +24,10 @@ const getAll = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
   const { contactId } = req.params;
-  const getContacts = await Contacts.getContactById(contactId);
+  const getContacts = await Contacts.findById(contactId);
+  // const getContacts = await Contacts.getContactById(contactId);
   if (!getContacts) {
-    throw HttpError(404, "Not Found");
+    throw HttpError(404, `Contact with id= ${contactId} Not Found`);
   }
   res.json(getContacts);
 
@@ -47,7 +48,7 @@ const add = async (req, res, next) => {
   // if (error) {
   //   throw HttpError(400, error.message);
   // }
-  const addContacts = await Contacts.addContacts(req.body);
+  const addContacts = await Contacts.create(req.body);
 
   res.status(201).json(addContacts);
 };
@@ -59,10 +60,12 @@ const updateById = async (req, res, next) => {
   // }
   const { contactId } = req.params;
   console.log(contactId);
-  const updateContacts = await Contacts.updateContacts(contactId, req.body);
+  const updateContacts = await Contacts.findByIdAndUpdate(contactId, req.body, {
+    new: true,
+  });
   console.log(updateContacts);
   if (!updateContacts) {
-    throw HttpError(404, "Not Found");
+    throw HttpError(404, `Contact with id= ${contactId} Not Found`);
   }
   res.json(updateContacts);
 };
@@ -70,11 +73,41 @@ const updateById = async (req, res, next) => {
 const deleteById = async (req, res, next) => {
   console.log(req.params);
   const { contactId } = req.params;
-  const removeContacts = await Contacts.removeContacts(contactId);
+  const removeContacts = await Contacts.findByIdAndDelete(contactId);
   if (!removeContacts) {
-    throw HttpError(404, "Not Found");
+    throw HttpError(404, `Contact with id= ${contactId} Not Found`);
   }
-  res.json({ message: "Delete succes!" });
+  res.json({
+    status: "uccess",
+    code: 200,
+    message: "Delete success!",
+    data: { removeContacts },
+  });
+};
+
+const updateStatusContact = async (req, res, next) => {
+  // const { error } = addSchema.validate(req.body);
+  // if (error) {
+  //   throw HttpError(400, error.message);
+  // }
+  const { contactId } = req.params;
+  const { favorite } = req.body;
+  console.log(contactId);
+  const updateContacts = await Contacts.findByIdAndUpdate(
+    contactId,
+    { favorite },
+    { new: true }
+  );
+  // console.log(updateContacts);
+  if (!updateContacts) {
+    throw HttpError(404, `Contact with id= ${contactId} Not Found`);
+  }
+  // res.json(updateContacts);
+  res.json({
+    status: "uccess",
+    code: 200,
+    data: { updateContacts },
+  });
 };
 
 module.exports = {
@@ -83,4 +116,5 @@ module.exports = {
   add: ctrlWrapper(add),
   updateById: ctrlWrapper(updateById),
   deleteById: ctrlWrapper(deleteById),
+  updateStatusContact: ctrlWrapper(updateStatusContact),
 };
