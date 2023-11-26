@@ -85,31 +85,3 @@ module.exports = {
   deleteById: ctrlWrapper(deleteById),
   updateStatusContact: ctrlWrapper(updateStatusContact),
 };
-
-// const updateStatusContact = async (req, res, next) => {
-//   const { contactId } = req.params;
-//   const { favorite } = req.body;
-//   // ??????? favorites(favorite, contactId);
-//   if (!favorite)
-//     res.json({
-//       status: "400 bad request",
-//       code: 400,
-//       message: "missing field favorite",
-//     });
-//   console.log(favorite);
-//   const result = await Contacts.findByIdAndUpdate(
-//     contactId,
-//     { favorite },
-//     { new: true }
-//   );
-
-//   if (!result) {
-//     throw HttpError(404, `Contact with id= ${contactId} Not Found`);
-//   }
-
-//   res.json({
-//     status: "uccess",
-//     code: 200,
-//      data: { result },
-//   });
-// };
