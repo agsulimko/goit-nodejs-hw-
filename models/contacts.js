@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-const contactsSchema = Schema(
+const contactsSchema = new Schema(
   {
     name: {
       type: String,
@@ -24,13 +24,15 @@ const joiSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
   phone: Joi.string().required(),
-  favorite: Joi.bool(),
+  favorite: Joi.bool().required(),
 });
 
 const favoriteJoiSchema = Joi.object({
   favorite: Joi.bool().valid(true, false).required(),
 });
 
+const schemas = { joiSchema, favoriteJoiSchema };
+
 const Contacts = model("contact", contactsSchema);
 
-module.exports = { Contacts, joiSchema, favoriteJoiSchema };
+module.exports = { Contacts, schemas };
