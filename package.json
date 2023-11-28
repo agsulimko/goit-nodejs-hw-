@@ -20,7 +20,7 @@
     "nanoid": "^3.3.4"
   },
  "engines": {
-  "node": "20.9.0"
+  "node": "=>20.9.0"
 },
   "devDependencies": {
     "eslint": "7.19.0",
