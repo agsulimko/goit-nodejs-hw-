@@ -21,7 +21,7 @@
     "node-version-alias": "^5.0.0"
   },
   "engines": {
-    "node": "20.09.0"
+    "node": ">=20.09.0 <21.0.0"
   },
   "devDependencies": {
     "eslint": "7.19.0",
