@@ -1,14 +1,14 @@
 const express = require("express");
 const ctrl = require("../../controllers/contacts");
 
-const { validateBody, isValidId } = require("../../middlewares");
+const { validateBody } = require("../../middlewares");
 const { schemas } = require("../../models/contacts");
 
 const router = express.Router();
 
 router.get("/", ctrl.getAll);
 
-router.get("/:contactId", isValidId, ctrl.getById);
+router.get("/:contactId", ctrl.getById);
 
 router.post("/", validateBody(schemas.joiSchema), ctrl.add);
 
