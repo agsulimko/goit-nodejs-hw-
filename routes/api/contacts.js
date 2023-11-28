@@ -12,20 +12,15 @@ router.get("/:contactId", isValidId, ctrl.getById);
 
 router.post("/", validateBody(schemas.joiSchema), ctrl.add);
 
-router.put(
-  "/:contactId",
-  isValidId,
-  validateBody(schemas.joiSchema),
-  ctrl.updateById
-);
+router.put("/:contactId", validateBody(schemas.joiSchema), ctrl.updateById);
 
 router.patch(
   "/:contactId/favorite",
-  isValidId,
+
   validateBody(schemas.favoriteJoiSchema),
   ctrl.updateStatusContact
 );
 
-router.delete("/:contactId", isValidId, ctrl.deleteById);
+router.delete("/:contactId", ctrl.deleteById);
 
 module.exports = router;

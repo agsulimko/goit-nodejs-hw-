@@ -21,6 +21,7 @@ const contactsSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
+contactsSchema.post("save", handleMongooseError);
 
 const joiSchema = Joi.object({
   name: Joi.string().required(),
@@ -32,7 +33,6 @@ const joiSchema = Joi.object({
 const favoriteJoiSchema = Joi.object({
   favorite: Joi.bool().required(),
 });
-contactsSchema.post("save", handleMongooseError);
 
 const schemas = { joiSchema, favoriteJoiSchema };
 
