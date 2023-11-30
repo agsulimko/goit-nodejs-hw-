@@ -72,9 +72,34 @@ const logout = async (req, res) => {
     message: "Logout success",
   });
 };
+
+const updateStatusSubscription = async (req, res) => {
+  // const { email } = req.user;
+  const { subscription } = req.body;
+  console.log(subscription);
+
+  if (!["starter", "pro", "business"].includes(subscription)) {
+    throw HttpError(400, "Invalid subscription value");
+  }
+  const updatedUser = await User.findOneAndUpdate(
+    // { email },
+    { subscription }
+    // { new: true }
+  );
+  if (!updatedUser) {
+    throw HttpError(404, "User not found");
+  }
+  res.status(200).json({
+    email: updatedUser.email,
+
+    subscription: updatedUser.subscription,
+  });
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
+  updateStatusSubscription,
 };
