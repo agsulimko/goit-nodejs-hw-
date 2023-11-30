@@ -28,6 +28,5 @@ router.patch(
 );
 
 router.delete("/:contactId", authenticate, ctrl.deleteById);
-// router.get("/:favorite", authenticate, ctrl.getByFaforite);
 
 module.exports = router;

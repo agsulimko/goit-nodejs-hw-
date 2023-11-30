@@ -2,21 +2,13 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 
 const { Contacts } = require("../models/contacts");
 
-//  try {
-//      const { favorite } = req.body;
-// console.log(favorite)
-//     const filter = favorite ? { favorite: true } : {};
-//     const contacts = await Contacts.find(filter);
-//     res.status(200).json(contacts);
-//   }
 const getAll = async (req, res) => {
   const { _id: owner } = req.user;
   const { favorite } = req.body;
-  const { page = 1, limit = 20 } = req.query; // Extract 'favorite' from query parameters
+  const { page = 1, limit = 20 } = req.query;
 
   const skip = (page - 1) * limit;
 
-  // Define a filter object based on the presence of 'favorite' query parameter
   const filter = !favorite ? { owner, favorite: true } : { owner };
 
   const result = await Contacts.find(filter, "-createdAt -updatedAt", {
@@ -26,19 +18,6 @@ const getAll = async (req, res) => {
 
   res.json(result);
 };
-// const getAll = async (req, res) => {
-//   const { _id: owner } = req.user;
-//   const { page = 1, limit = 20 } = req.query;
-
-//   const skip = (page - 1) * limit;
-
-//   const result = await Contacts.find({ owner }, "-createdAt -updatedAt", {
-//     skip,
-//     limit,
-//   }).populate("owner", "name email");
-
-//   res.json(result);
-// };
 
 const getById = async (req, res, next) => {
   const { contactId } = req.params;
@@ -50,11 +29,6 @@ const getById = async (req, res, next) => {
   res.json(result);
 };
 
-// const add = async (req, res, next) => {
-//   const result = await Contacts.create(req.body);
-
-//   res.status(201).json(result);
-// };
 const add = async (req, res) => {
   const { _id: owner } = req.user;
   const result = await Contacts.create({ ...req.body, owner });
@@ -115,19 +89,6 @@ const updateStatusContact = async (req, res, next) => {
   });
 };
 
-// const getByFaforite = async (req, res, next) => {
-//   try {
-//     const { favorite } = req.body;
-//     console.log(favorite);
-//     const filter = favorite ? { favorite: true } : {};
-//     const contacts = await Contacts.find(filter);
-//     res.status(200).json(contacts);
-//   } catch (error) {
-//     // Handle errors
-//     next(error);
-//   }
-// };
-
 module.exports = {
   getAll: ctrlWrapper(getAll),
   getById: ctrlWrapper(getById),
@@ -135,5 +96,4 @@ module.exports = {
   updateById: ctrlWrapper(updateById),
   deleteById: ctrlWrapper(deleteById),
   updateStatusContact: ctrlWrapper(updateStatusContact),
-  // getByFaforite: ctrlWrapper(getByFaforite),
 };

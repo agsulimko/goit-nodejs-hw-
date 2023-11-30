@@ -26,7 +26,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  // console.log(user);
+
   if (!user) {
     throw HttpError(401, "Email or password is wrong");
   }
@@ -74,18 +74,13 @@ const logout = async (req, res) => {
 };
 
 const updateStatusSubscription = async (req, res) => {
-  // const { email } = req.user;
   const { subscription } = req.body;
   console.log(subscription);
 
   if (!["starter", "pro", "business"].includes(subscription)) {
     throw HttpError(400, "Invalid subscription value");
   }
-  const updatedUser = await User.findOneAndUpdate(
-    // { email },
-    { subscription }
-    // { new: true }
-  );
+  const updatedUser = await User.findOneAndUpdate({ subscription });
   if (!updatedUser) {
     throw HttpError(404, "User not found");
   }
