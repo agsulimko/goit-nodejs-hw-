@@ -73,11 +73,12 @@ const logout = async (req, res) => {
   });
 };
 
-const updateStatusSubscription = async (req, res) => {
+const updateStatusSubscription = async (req, res, next) => {
   const { subscription } = req.body;
   console.log(subscription);
+  console.log(["starter", "pro", "business"].includes(subscription));
 
-  if (!["starter", "pro", "business"].includes(subscription)) {
+  if (["starter", "pro", "business"].includes(subscription)) {
     throw HttpError(400, "Invalid subscription value");
   }
   const updatedUser = await User.findOneAndUpdate({ subscription });
