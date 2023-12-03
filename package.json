@@ -1,6 +1,6 @@
 {
   "name": "template",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./server.js",
@@ -9,7 +9,6 @@
     "lint:fix": "eslint --fix **/*.js"
   },
   "dependencies": {
-    
     "cors": "2.8.5",
     "cross-env": "7.0.3",
     "dotenv": "^16.3.1",
@@ -20,7 +19,6 @@
     "nanoid": "^3.3.4",
     "node-version-alias": "^5.0.0"
   },
-
   "devDependencies": {
     "eslint": "7.19.0",
     "eslint-config-prettier": "^8.3.0",
