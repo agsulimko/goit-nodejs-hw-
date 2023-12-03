@@ -3,3 +3,8 @@ const DB_HOST =
 module.exports = { DB_HOST };
 
 // mongodb+srv://agsulimko:<password>@clusteragsulimko1.6tm1onp.mongodb.net/?retryWrites=true&w=majority
+
+
+  "engines": {
+    "node": ">=20.09.0 <21.0.0"
+  },
