@@ -40,7 +40,7 @@ const login = async (req, res) => {
   };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-  await User.findByIdAndUpdate(user._id, { token });
+
   res.status(200).json({
     token,
 
@@ -78,10 +78,11 @@ const updateStatusSubscription = async (req, res, next) => {
   console.log(subscription);
   console.log(["starter", "pro", "business"].includes(subscription));
 
-  if (["starter", "pro", "business"].includes(subscription)) {
-    throw HttpError(400, "Invalid subscription value");
-  }
+  // if (!["starter", "pro", "business"].includes(subscription)) {
+  //   throw HttpError(400, "Invalid subscription value");
+  // }
   const updatedUser = await User.findOneAndUpdate({ subscription });
+  console.log("updatedUser=>", updatedUser.subscription);
   if (!updatedUser) {
     throw HttpError(404, "User not found");
   }
