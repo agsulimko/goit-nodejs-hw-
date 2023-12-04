@@ -8,14 +8,15 @@ const router = express.Router();
 
 router.get("/", authenticate, ctrl.getAll);
 
-router.get("/:contactId", isValidId, authenticate, ctrl.getById);
+router.get("/:contactId", authenticate, isValidId, ctrl.getById);
 
 router.post("/", authenticate, validateBody(schemas.joiSchema), ctrl.add);
 
 router.put(
   "/:contactId",
-  isValidId,
+
   authenticate,
+  isValidId,
 
   validateBody(schemas.joiSchema),
   ctrl.updateById
@@ -23,8 +24,9 @@ router.put(
 
 router.patch(
   "/:contactId/favorite",
-  isValidId,
+
   authenticate,
+  isValidId,
   validateBody(schemas.favoriteJoiSchema),
   ctrl.updateStatusContact
 );
