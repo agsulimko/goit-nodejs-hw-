@@ -74,14 +74,21 @@ const logout = async (req, res) => {
 };
 
 const updateStatusSubscription = async (req, res, next) => {
+  const { _id } = req.user;
   const { subscription } = req.body;
   console.log(subscription);
   console.log(["starter", "pro", "business"].includes(subscription));
 
-  // if (!["starter", "pro", "business"].includes(subscription)) {
-  //   throw HttpError(400, "Invalid subscription value");
-  // }
-  const updatedUser = await User.findOneAndUpdate({ subscription });
+  if (!["starter", "pro", "business"].includes(subscription)) {
+    throw HttpError(400, "Invalid subscription value");
+  }
+  const updatedUser = await User.findOneAndUpdate(
+    _id,
+    { subscription },
+    {
+      new: true,
+    }
+  );
   console.log("updatedUser=>", updatedUser.subscription);
   if (!updatedUser) {
     throw HttpError(404, "User not found");
@@ -100,3 +107,30 @@ module.exports = {
   logout: ctrlWrapper(logout),
   updateStatusSubscription,
 };
+// const updateStatusSubscription = async (req, res, next) => {
+//   const { _id } = req.user;
+//   const { subscription } = req.body;
+//   console.log(subscription);
+//   console.log(["starter", "pro", "business"].includes(subscription));
+
+//   if (!["starter", "pro", "business"].includes(subscription)) {
+//     console.log("subscription erro!!!!");
+//     throw HttpError(400, "Invalid subscription value");
+//   }
+//   const updatedUser = await User.findOneAndUpdate(
+//     _id,
+//     { subscription },
+//     {
+//       new: true,
+//     }
+//   );
+//   console.log("updatedUser=>", updatedUser.subscription);
+//   if (!updatedUser) {
+//     throw HttpError(404, "User not found");
+//   }
+//   res.status(200).json({
+//     email: updatedUser.email,
+
+//     subscription: updatedUser.subscription,
+//   });
+// };
