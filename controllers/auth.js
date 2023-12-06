@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const path = require("path");
 const fs = require("fs/promises");
+
 const { User } = require("../models/user");
 
 const { ctrlWrapper, HttpError } = require("../helpers");
@@ -30,6 +31,7 @@ const register = async (req, res) => {
   res.status(201).json({
     email: newUser.email,
     subscription: newUser.subscription,
+    avatarURL,
   });
 };
 
@@ -52,13 +54,14 @@ const login = async (req, res) => {
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
   // await User.findByIdAndUpdate(user._id);
-  // await User.findByIdAndUpdate(user._id, { token });
+  await User.findByIdAndUpdate(user._id, { token });
   res.status(200).json({
     token,
 
     user: {
       email,
       subscription: user.subscription,
+      avatarURL: user.avatarURL,
     },
   });
 };

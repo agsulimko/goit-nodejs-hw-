@@ -6,7 +6,6 @@ const upload = require("./upload");
 module.exports = {
   validateBody,
   isValidId,
-
   authenticate,
   upload,
 };
