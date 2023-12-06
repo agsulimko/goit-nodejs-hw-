@@ -1,12 +1,15 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
-
+const path = require("path");
+const fs = require("fs/promises");
 const { User } = require("../models/user");
 
 const { ctrlWrapper, HttpError } = require("../helpers");
 
 const { SECRET_KEY } = process.env;
+
+const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -85,8 +88,8 @@ const logout = async (req, res) => {
 const updateStatusSubscription = async (req, res, next) => {
   const { _id } = req.user;
   const { subscription } = req.body;
-  console.log(subscription);
-  console.log(["starter", "pro", "business"].includes(subscription));
+  // console.log(subscription);
+  // console.log(["starter", "pro", "business"].includes(subscription));
 
   if (!["starter", "pro", "business"].includes(subscription)) {
     throw HttpError(400, "Invalid subscription value");
@@ -109,12 +112,26 @@ const updateStatusSubscription = async (req, res, next) => {
   });
 };
 
+const updateAvatar = async (req, res) => {
+  const { _id } = req.user;
+  const { path: tempUpload, originalname } = req.file;
+  const filename = `${_id}_${originalname}`;
+  const resultUpload = path.join(avatarsDir, filename);
+  await fs.rename(tempUpload, resultUpload);
+  const avatarURL = path.join("avatars", filename);
+  await User.findByIdAndUpdate(_id, { avatarURL });
+
+  res.json({
+    avatarURL,
+  });
+};
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
-  updateStatusSubscription,
+  updateStatusSubscription: ctrlWrapper(updateStatusSubscription),
+  updateAvatar: ctrlWrapper(updateAvatar),
 };
 // const updateStatusSubscription = async (req, res, next) => {
 //   const { _id } = req.user;
