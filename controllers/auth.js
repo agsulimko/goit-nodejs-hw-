@@ -3,10 +3,10 @@ const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const path = require("path");
 const fs = require("fs/promises");
-
+const { ctrlWrapper, HttpError } = require("../helpers");
 const { User } = require("../models/user");
 
-const { ctrlWrapper, HttpError } = require("../helpers");
+// const Jimp = require("jimp");
 
 const { SECRET_KEY } = process.env;
 
@@ -39,6 +39,10 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
+  // console.log("user=", user);
+
+  // console.log("user.token=", user.token);
+  // console.log("user.email=", user.email);
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!user || !passwordCompare) {
     throw HttpError(401, "Email or password is wrong");
@@ -50,9 +54,9 @@ const login = async (req, res) => {
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
 
-  // await User.findByIdAndUpdate(user._id, { token });
+  await User.findByIdAndUpdate(user._id, { token });
   res.status(200).json({
-    data: { token },
+    token,
 
     user: {
       email,
@@ -132,30 +136,3 @@ module.exports = {
   updateStatusSubscription: ctrlWrapper(updateStatusSubscription),
   updateAvatar: ctrlWrapper(updateAvatar),
 };
-// const updateStatusSubscription = async (req, res, next) => {
-//   const { _id } = req.user;
-//   const { subscription } = req.body;
-//   console.log(subscription);
-//   console.log(["starter", "pro", "business"].includes(subscription));
-
-//   if (!["starter", "pro", "business"].includes(subscription)) {
-//     console.log("subscription erro!!!!");
-//     throw HttpError(400, "Invalid subscription value");
-//   }
-//   const updatedUser = await User.findOneAndUpdate(
-//     _id,
-//     { subscription },
-//     {
-//       new: true,
-//     }
-//   );
-//   console.log("updatedUser=>", updatedUser.subscription);
-//   if (!updatedUser) {
-//     throw HttpError(404, "User not found");
-//   }
-//   res.status(200).json({
-//     email: updatedUser.email,
-
-//     subscription: updatedUser.subscription,
-//   });
-// };
