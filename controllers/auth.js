@@ -6,7 +6,7 @@ const fs = require("fs/promises");
 const { ctrlWrapper, HttpError } = require("../helpers");
 const { User } = require("../models/user");
 
-// const Jimp = require("jimp");
+const Jimp = require("jimp");
 
 const { SECRET_KEY } = process.env;
 
@@ -28,7 +28,7 @@ const register = async (req, res) => {
     password: hashPassword,
     avatarURL,
   });
-  res.status(201).json({
+  res.status(200).json({
     email: newUser.email,
     subscription: newUser.subscription,
     avatarURL,
@@ -39,10 +39,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  // console.log("user=", user);
 
-  // console.log("user.token=", user.token);
-  // console.log("user.email=", user.email);
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!user || !passwordCompare) {
     throw HttpError(401, "Email or password is wrong");
@@ -91,8 +88,6 @@ const logout = async (req, res) => {
 const updateStatusSubscription = async (req, res, next) => {
   const { _id } = req.user;
   const { subscription } = req.body;
-  // console.log(subscription);
-  // console.log(["starter", "pro", "business"].includes(subscription));
 
   if (!["starter", "pro", "business"].includes(subscription)) {
     throw HttpError(400, "Invalid subscription value");
@@ -118,16 +113,25 @@ const updateStatusSubscription = async (req, res, next) => {
 const updateAvatar = async (req, res) => {
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
-
   const filename = `${_id}_${originalname}`;
-  const resultUpload = path.join(avatarsDir, filename);
-  await fs.rename(tempUpload, resultUpload);
-  const avatarURL = path.join("avatars", filename);
-  await User.findByIdAndUpdate(_id, { avatarURL });
+  try {
+    const resultUpload = path.join(avatarsDir, filename);
+    await fs.rename(tempUpload, resultUpload);
 
-  res.json({
-    avatarURL,
-  });
+    const avatar = await Jimp.read(resultUpload);
+
+    await avatar.resize(250, 250).write(resultUpload);
+
+    const avatarURL = path.join("avatars", filename);
+    await User.findByIdAndUpdate(_id, { avatarURL });
+
+    res.json({
+      avatarURL,
+    });
+  } catch (error) {
+    await fs.unlink(req.file.path);
+    throw error;
+  }
 };
 module.exports = {
   register: ctrlWrapper(register),

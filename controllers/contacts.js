@@ -42,9 +42,6 @@ const updateById = async (req, res, next) => {
   const result = await Contacts.findByIdAndUpdate(contactId, req.body, {
     new: true,
   });
-  // const result = await Contacts.findOneAndUpdate({ _id: contactId }, req.body, {
-  //   new: true,
-  // });
 
   if (!result) {
     throw HttpError(404, `Contact with id= ${contactId} Not Found`);
@@ -70,10 +67,7 @@ const updateStatusContact = async (req, res, next) => {
   const { contactId } = req.params;
   const { favorite } = req.body;
 
-  // if (!favorite) {
-  //   throw HttpError(400, "Missing field favorite");
-  // }
-  if (typeof favorite === "undefined") {
+  if (!favorite) {
     throw HttpError(400, "Missing field favorite");
   }
 
