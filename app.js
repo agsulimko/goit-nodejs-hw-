@@ -1,25 +1,18 @@
-const express = require('express')
-const logger = require('morgan')
-const cors = require('cors')
+const { Server } = require("socket.io");
+const { createServer } = require("http");
 
-const contactsRouter = require('./routes/api/contacts')
+const httpServer = createServer();
 
-const app = express()
+const io = new Server(httpServer, {
+    cors: {
+        origin: "*"
+    }
+});
 
-const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
+io.on("connection", (socket) => {
+    socket.on("chat-message", message => {
+        socket.broadcast.emit("chat-message", message);
+    })
+});
 
-app.use(logger(formatsLogger))
-app.use(cors())
-app.use(express.json())
-
-app.use('/api/contacts', contactsRouter)
-
-app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' })
-})
-
-app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
-})
-
-module.exports = app
+httpServer.listen(3001);
