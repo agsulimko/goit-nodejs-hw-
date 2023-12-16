@@ -1,4 +1,3 @@
-// require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
@@ -109,7 +108,11 @@ const login = async (req, res) => {
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
 
-  // await User.findByIdAndUpdate(user._id, { token });
+  const newUser = await User.findByIdAndUpdate(
+    user._id,
+    { token },
+    { select: "-token -password -createdAt -updateAt" }
+  );
   res.status(200).json({
     token,
 
@@ -187,6 +190,7 @@ const updateAvatar = async (req, res) => {
       avatarURL,
     });
   } catch (error) {
+    // delete tempUpload file
     await fs.unlink(req.file.path);
     throw error;
   }
