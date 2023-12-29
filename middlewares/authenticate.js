@@ -18,8 +18,8 @@ const authenticate = async (req, res, next) => {
     console.log("id=", id);
     console.log("user=", user);
     console.log("user._id=", user._id.toString());
-    if (!id || !user || user._id.toString() !== id) {
-      // (!id || !user || !user || user.token !== token)
+    if (!id || !user || !user || user.token !== token) {
+      // (!id || !user || user._id.toString() !== id)
       next(HttpError(401, "Not authorized"));
     }
     req.user = user;
