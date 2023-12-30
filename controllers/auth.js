@@ -31,13 +31,13 @@ const register = async (req, res) => {
     avatarURL,
     verificationToken,
   });
-
+  // подтверждение адресса
   const verifyEmail = {
     to: email,
     subject: "Verify email",
     html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click verify email</a>`,
   };
-
+  //  отправляем письмо
   await sendEmail(verifyEmail);
 
   res.status(200).json({
@@ -107,8 +107,8 @@ const login = async (req, res) => {
   };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-
-  const newUser = await User.findByIdAndUpdate(
+  // const newUser = await User.
+  await User.findByIdAndUpdate(
     user._id,
     { token },
     { select: "-token -password -createdAt -updateAt" }
